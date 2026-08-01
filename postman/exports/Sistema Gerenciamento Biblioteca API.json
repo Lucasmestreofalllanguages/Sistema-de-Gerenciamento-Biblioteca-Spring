@@ -1,0 +1,1048 @@
+{
+  "info": {
+    "name": "Sistema Gerenciamento Biblioteca API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Cópia exportada da collection de gerenciamento de biblioteca (Autor, Livro, Membro, Emprestimo)."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Autor",
+      "item": [
+        {
+          "name": "Buscar todos os Autores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/autor",
+              "host": ["{{base_url}}"],
+              "path": ["autor"]
+            },
+            "description": "Retorna a lista completa de autores cadastrados no sistema.\n\nCorresponde ao endpoint `GET /autor` (AutorController.findAll), que retorna a lista de entidades `Autor` (id, nome)."
+          },
+          "response": [
+            {
+              "name": "Buscar todos os Autores - Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/autor",
+                  "host": ["{{base_url}}"],
+                  "path": ["autor"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"Machado de Assis\"\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"Aluísio Azevedo\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Buscar autor por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/autor/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["autor", "{id}"]
+            },
+            "description": "Busca um autor específico pelo seu identificador.\n\nCorresponde ao endpoint `GET /autor/{id}` (AutorController.showAuthor). Retorna a entidade `Autor` (id, nome). Caso o autor não exista, retorna 404 (AutorNotFoundException).\n\nPath Variable:\n- `id` (Long): identificador do autor."
+          },
+          "response": [
+            {
+              "name": "Buscar autor por Id - Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/autor/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["autor", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": 1,\n    \"nome\": \"Machado de Assis\"\n}"
+            },
+            {
+              "name": "Buscar autor por Id - Não encontrado (404)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/autor/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["autor", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Autor with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Cadastrar um Autor",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Machado de Assis\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/autor/cadastro",
+              "host": ["{{base_url}}"],
+              "path": ["autor", "cadastro"]
+            },
+            "description": "Cadastra um novo autor no sistema.\n\nCorresponde ao endpoint `POST /autor/cadastro` (AutorController.createAuthor). O corpo utiliza o `AutorCreateDTO` (nome) e a resposta é a entidade `Autor` (id, nome)."
+          },
+          "response": [
+            {
+              "name": "Cadastrar um Autor - Sucesso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nome\": \"Machado de Assis\"\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/autor/cadastro",
+                  "host": ["{{base_url}}"],
+                  "path": ["autor", "cadastro"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": 1,\n    \"nome\": \"Machado de Assis\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Atualizar dado de um Autor",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Machado de Assis (atualizado)\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/autor/atualizar/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["autor", "atualizar", "{id}"]
+            },
+            "description": "Atualiza o nome de um autor existente.\n\nCorresponde ao endpoint `PUT /autor/atualizar/{id}` (AutorController.updateAuthor). O corpo utiliza o `AutorCreateDTO` (nome) e a resposta é a entidade `Autor` (id, nome). Caso o autor não exista, retorna 404 (AutorNotFoundException).\n\nPath Variable:\n- `id` (Long): identificador do autor."
+          },
+          "response": [
+            {
+              "name": "Atualizar Autor - Sucesso",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nome\": \"Machado de Assis (atualizado)\"\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/autor/atualizar/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["autor", "atualizar", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": 1,\n    \"nome\": \"Machado de Assis (atualizado)\"\n}"
+            },
+            {
+              "name": "Atualizar Autor - Não encontrado (404)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nome\": \"Machado de Assis (atualizado)\"\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/autor/atualizar/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["autor", "atualizar", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Autor with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Excluir Autor",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/autor/excluir/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["autor", "excluir", "{id}"]
+            },
+            "description": "Exclui um autor do sistema.\n\nCorresponde ao endpoint `DELETE /autor/excluir/{id}` (AutorController.delete). Caso o autor não exista, retorna 404 (AutorNotFoundException).\n\nPath Variable:\n- `id` (Long): identificador do autor."
+          },
+          "response": [
+            {
+              "name": "Excluir Autor - Sucesso",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/autor/excluir/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["autor", "excluir", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "body": ""
+            },
+            {
+              "name": "Excluir Autor - Não encontrado (404)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/autor/excluir/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["autor", "excluir", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Autor with id 999 not found\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Livro",
+      "item": [
+        {
+          "name": "Buscar todos os Livros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/livro",
+              "host": ["{{base_url}}"],
+              "path": ["livro"]
+            },
+            "description": "Retorna a lista completa de livros cadastrados no sistema.\n\nCorresponde ao endpoint `GET /livro` (LivroController.listAll), que retorna a lista de entidades `Livro` (id, titulo, estoque, autor)."
+          },
+          "response": [
+            {
+              "name": "Buscar todos os Livros - Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/livro",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n    {\n        \"id\": 1,\n        \"titulo\": \"Dom Casmurro\",\n        \"estoque\": 5,\n        \"autor\": {\n            \"id\": 1,\n            \"nome\": \"Machado de Assis\"\n        }\n    },\n    {\n        \"id\": 2,\n        \"titulo\": \"O Cortiço\",\n        \"estoque\": 3,\n        \"autor\": {\n            \"id\": 2,\n            \"nome\": \"Aluísio Azevedo\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Buscar livro por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/livro/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["livro", "{id}"]
+            },
+            "description": "Busca um livro específico pelo seu identificador.\n\nCorresponde ao endpoint `GET /livro/{id}` (LivroController.showBook). Retorna um `LivroRequestDTO` (titulo, nomeAutor, estoque, Id). Caso o livro não exista, retorna 404 (BookNotFoundException).\n\nPath Variable:\n- `id` (Long): identificador do livro."
+          },
+          "response": [
+            {
+              "name": "Buscar livro por Id - Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/livro/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"titulo\": \"Dom Casmurro\",\n    \"nomeAutor\": \"Machado de Assis\",\n    \"estoque\": 5,\n    \"id\": 1\n}"
+            },
+            {
+              "name": "Buscar livro por Id - Não encontrado (404)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/livro/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Book with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Cadastrar Livro",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Dom Casmurro\",\n    \"autorId\": 1,\n    \"estoque\": 5\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/livro/cadastro",
+              "host": ["{{base_url}}"],
+              "path": ["livro", "cadastro"]
+            },
+            "description": "Cadastra um novo livro associado a um autor existente.\n\nCorresponde ao endpoint `POST /livro/cadastro` (LivroController.registerBook). O corpo utiliza o `LivroCreateDTO` (titulo, autorId, estoque) e a resposta é um `LivroRequestDTO` (titulo, nomeAutor, estoque, Id). Caso o autor não exista, retorna 404 (AutorNotFoundException)."
+          },
+          "response": [
+            {
+              "name": "Cadastrar Livro - Sucesso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"titulo\": \"Dom Casmurro\",\n    \"autorId\": 1,\n    \"estoque\": 5\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/livro/cadastro",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro", "cadastro"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"titulo\": \"Dom Casmurro\",\n    \"nomeAutor\": \"Machado de Assis\",\n    \"estoque\": 5,\n    \"id\": 1\n}"
+            },
+            {
+              "name": "Cadastrar Livro - Autor não encontrado (404)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"titulo\": \"Dom Casmurro\",\n    \"autorId\": 999,\n    \"estoque\": 5\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/livro/cadastro",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro", "cadastro"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Autor with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Atualizar dado de um Livro",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Dom Casmurro (Edição Revisada)\",\n    \"autorId\": 1,\n    \"estoque\": 8\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/livro/atualizar/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["livro", "atualizar", "{id}"]
+            },
+            "description": "Atualiza os dados de um livro existente (titulo, autor e/ou estoque).\n\nCorresponde ao endpoint `PUT /livro/atualizar/{id}` (LivroController.updateBook). O corpo utiliza o `LivroCreateDTO` (titulo, autorId, estoque); apenas campos não nulos são atualizados. A resposta é um `LivroRequestDTO`. Retorna 404 se o livro ou o autor informado não existir.\n\nPath Variable:\n- `id` (Long): identificador do livro."
+          },
+          "response": [
+            {
+              "name": "Atualizar Livro - Sucesso",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"titulo\": \"Dom Casmurro (Edição Revisada)\",\n    \"autorId\": 1,\n    \"estoque\": 8\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/livro/atualizar/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro", "atualizar", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"titulo\": \"Dom Casmurro (Edição Revisada)\",\n    \"nomeAutor\": \"Machado de Assis\",\n    \"estoque\": 8,\n    \"id\": 1\n}"
+            },
+            {
+              "name": "Atualizar Livro - Não encontrado (404)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"titulo\": \"Dom Casmurro (Edição Revisada)\",\n    \"autorId\": 1,\n    \"estoque\": 8\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/livro/atualizar/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro", "atualizar", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Book with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Excluir Livro",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/livro/excluir/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["livro", "excluir", "{id}"]
+            },
+            "description": "Exclui um livro do sistema.\n\nCorresponde ao endpoint `DELETE /livro/excluir/{id}` (LivroController.delete). Retorna 404 se o livro não existir (BookNotFoundException) e 409 se o livro estiver emprestado (BookAlreadyBorrowed).\n\nPath Variable:\n- `id` (Long): identificador do livro."
+          },
+          "response": [
+            {
+              "name": "Excluir Livro - Sucesso",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/livro/excluir/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro", "excluir", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "body": ""
+            },
+            {
+              "name": "Excluir Livro - Livro emprestado (409)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/livro/excluir/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["livro", "excluir", "1"]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"CONFLICT\",\n    \"message\": \"Book with id: 1 already borrowed\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Membro",
+      "item": [
+        {
+          "name": "Buscar todos os Membros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/membro",
+              "host": ["{{base_url}}"],
+              "path": ["membro"]
+            },
+            "description": "Retorna a lista completa de membros cadastrados no sistema.\n\nCorresponde ao endpoint `GET /membro` (MembroController.listAll), que retorna a lista de entidades `Membro` (id, nome, cpf)."
+          },
+          "response": [
+            {
+              "name": "Buscar todos os Membros - Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/membro",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"João da Silva\",\n        \"cpf\": \"123.456.789-00\"\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"Maria Oliveira\",\n        \"cpf\": \"987.654.321-00\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Buscar membro por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/membro/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["membro", "{id}"]
+            },
+            "description": "Busca um membro específico pelo seu identificador.\n\nCorresponde ao endpoint `GET /membro/{id}` (MembroController.showMember). Retorna um `MembroRequestDTO` (nome, id). Caso o membro não exista, retorna 404 (MemberNotFoundException).\n\nPath Variable:\n- `id` (Long): identificador do membro."
+          },
+          "response": [
+            {
+              "name": "Buscar membro por Id - Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/membro/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"nome\": \"João da Silva\",\n    \"id\": 1\n}"
+            },
+            {
+              "name": "Buscar membro por Id - Não encontrado (404)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/membro/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Member with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Cadastrar membro",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"João da Silva\",\n    \"cpf\": \"123.456.789-00\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/membro/cadastro",
+              "host": ["{{base_url}}"],
+              "path": ["membro", "cadastro"]
+            },
+            "description": "Cadastra um novo membro no sistema.\n\nCorresponde ao endpoint `POST /membro/cadastro` (MembroController.registerMember). O corpo utiliza o `MembroCreateDTO` (nome, cpf) e a resposta é um `MembroRequestDTO` (nome, id)."
+          },
+          "response": [
+            {
+              "name": "Cadastrar membro - Sucesso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nome\": \"João da Silva\",\n    \"cpf\": \"123.456.789-00\"\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/membro/cadastro",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro", "cadastro"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"nome\": \"João da Silva\",\n    \"id\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Atualizar dados de um membro",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"João da Silva Souza\",\n    \"cpf\": \"123.456.789-00\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/membro/atualizar/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["membro", "atualizar", "{id}"]
+            },
+            "description": "Atualiza os dados (nome e/ou cpf) de um membro existente.\n\nCorresponde ao endpoint `PUT /membro/atualizar/{id}` (MembroController.updateMember). O corpo utiliza o `MembroCreateDTO` (nome, cpf); apenas os campos não nulos são atualizados. A resposta é um `MembroRequestDTO` (nome, id). Caso o membro não exista, retorna 404 (MemberNotFoundException).\n\nPath Variable:\n- `id` (Long): identificador do membro."
+          },
+          "response": [
+            {
+              "name": "Atualizar membro - Sucesso",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nome\": \"João da Silva Souza\",\n    \"cpf\": \"123.456.789-00\"\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/membro/atualizar/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro", "atualizar", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"nome\": \"João da Silva Souza\",\n    \"id\": 1\n}"
+            },
+            {
+              "name": "Atualizar membro - Não encontrado (404)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nome\": \"João da Silva Souza\",\n    \"cpf\": \"123.456.789-00\"\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/membro/atualizar/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro", "atualizar", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Member with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Excluir um membro",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/membro/excluir/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["membro", "excluir", "{id}"]
+            },
+            "description": "Exclui um membro do sistema.\n\nCorresponde ao endpoint `DELETE /membro/excluir/{id}` (MembroController.delete). Caso o membro não exista, retorna 404 (MemberNotFoundException). Caso o membro possua um empréstimo ativo, retorna 409 (MemberAlreadyHaveALoanException).\n\nPath Variable:\n- `id` (Long): identificador do membro."
+          },
+          "response": [
+            {
+              "name": "Excluir membro - Sucesso",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/membro/excluir/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro", "excluir", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "body": ""
+            },
+            {
+              "name": "Excluir membro - Não encontrado (404)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/membro/excluir/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro", "excluir", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Member with id 999 not found\"\n}"
+            },
+            {
+              "name": "Excluir membro - Possui empréstimo ativo (409)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/membro/excluir/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["membro", "excluir", "1"]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"CONFLICT\",\n    \"message\": \"Member with id: 1 already have a loan\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Emprestimo",
+      "item": [
+        {
+          "name": "Buscar todos os emprestimos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/emprestimo",
+              "host": ["{{base_url}}"],
+              "path": ["emprestimo"]
+            },
+            "description": "Retorna todos os empréstimos registrados no sistema.\n\nCorresponde ao endpoint `GET /emprestimo` (EmprestimoController.listAll), que retorna uma lista de `EmpRequestDTO` (nome do membro, membroId, livroEmprestado, status)."
+          },
+          "response": [
+            {
+              "name": "Buscar todos os emprestimos - Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/emprestimo",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n    {\n        \"nome\": \"João da Silva\",\n        \"membroId\": 1,\n        \"livroEmprestado\": \"Dom Casmurro\",\n        \"status\": \"EMPRESTADO\"\n    },\n    {\n        \"nome\": \"Maria Oliveira\",\n        \"membroId\": 2,\n        \"livroEmprestado\": \"O Cortiço\",\n        \"status\": \"ATRASADO\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Buscar emprestimos por Id do membro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/emprestimo/membro/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["emprestimo", "membro", "{id}"]
+            },
+            "description": "Retorna a quantidade de empréstimos ativos (EMPRESTADO ou ATRASADO) de um membro.\n\nCorresponde ao endpoint `GET /emprestimo/membro/{id}` (EmprestimoController.showById). Retorna um `EmpDTO` (nomeMembro, quantidadeEmprestimos). Caso o membro não exista, retorna 404 (MemberNotFoundException).\n\nPath Variable:\n- `id` (Long): identificador do membro."
+          },
+          "response": [
+            {
+              "name": "Buscar emprestimos por membro - Sucesso",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/membro/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "membro", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"nomeMembro\": \"João da Silva\",\n    \"quantidadeEmprestimos\": 2\n}"
+            },
+            {
+              "name": "Buscar emprestimos por membro - Não encontrado (404)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/membro/999",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "membro", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Member with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registrar emprestimo",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"membroId\": 1,\n    \"livroId\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/emprestimo/registrar",
+              "host": ["{{base_url}}"],
+              "path": ["emprestimo", "registrar"]
+            },
+            "description": "Registra um novo empréstimo de um livro para um membro.\n\nCorresponde ao endpoint `POST /emprestimo/registrar` (EmprestimoController.registerLoan). O corpo utiliza o `EmpCreateDTO` (membroId, livroId) e a resposta é a entidade `Emprestimo`.\n\nRegras de negócio (EmprestimoService.toLoan):\n- 404 se o livro ou membro não existir.\n- 409 (BookAlreadyBorrowed) se o membro já tiver esse livro emprestado.\n- 409 (MaxLoanLimitReached) se o membro já possuir 5 empréstimos ativos.\n- 409 (BookStockIsEmpty) se o estoque do livro for zero."
+          },
+          "response": [
+            {
+              "name": "Registrar emprestimo - Sucesso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"membroId\": 1,\n    \"livroId\": 1\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/registrar",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "registrar"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"id\": 1,\n    \"livro\": {\n        \"id\": 1,\n        \"titulo\": \"Dom Casmurro\",\n        \"estoque\": 4,\n        \"autor\": {\n            \"id\": 1,\n            \"nome\": \"Machado de Assis\"\n        }\n    },\n    \"membro\": {\n        \"id\": 1,\n        \"nome\": \"João da Silva\",\n        \"cpf\": \"123.456.789-00\"\n    },\n    \"dataEmprestimo\": \"2026-08-01\",\n    \"dataDevolucao\": null,\n    \"status\": \"EMPRESTADO\"\n}"
+            },
+            {
+              "name": "Registrar emprestimo - Livro já emprestado (409)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"membroId\": 1,\n    \"livroId\": 1\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/registrar",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "registrar"]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"CONFLICT\",\n    \"message\": \"Book with id: 1 already borrowed by member with id: 1\"\n}"
+            },
+            {
+              "name": "Registrar emprestimo - Estoque vazio (409)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"membroId\": 2,\n    \"livroId\": 3\n}",
+                  "options": { "raw": { "language": "json" } }
+                },
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/registrar",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "registrar"]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"CONFLICT\",\n    \"message\": \"Book with id: 3 is out of stock\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Atualizar status dos emprestimos para atrasado",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/emprestimo/atualizar-status",
+              "host": ["{{base_url}}"],
+              "path": ["emprestimo", "atualizar-status"]
+            },
+            "description": "Verifica os empréstimos com status EMPRESTADO e atualiza para ATRASADO aqueles com mais de 7 dias desde a data de empréstimo.\n\nCorresponde ao endpoint `PUT /emprestimo/atualizar-status` (EmprestimoController.checkLateLoans). Retorna uma mensagem de texto informando quantos empréstimos foram atualizados."
+          },
+          "response": [
+            {
+              "name": "Atualizar status - Empréstimos atualizados",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/atualizar-status",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "atualizar-status"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [{ "key": "Content-Type", "value": "text/plain" }],
+              "body": "2 Loans updated to ATRASADO"
+            },
+            {
+              "name": "Atualizar status - Nenhum empréstimo atrasado",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/atualizar-status",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "atualizar-status"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [{ "key": "Content-Type", "value": "text/plain" }],
+              "body": "No loans are Late"
+            }
+          ]
+        },
+        {
+          "name": "Registrar devolucao de livro",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/emprestimo/livro/devolver/{id}/membro/{idMember}",
+              "host": ["{{base_url}}"],
+              "path": ["emprestimo", "livro", "devolver", "{id}", "membro", "{idMember}"]
+            },
+            "description": "Registra a devolução de um livro emprestado por um membro.\n\nCorresponde ao endpoint `PUT /emprestimo/livro/devolver/{id}/membro/{idMember}` (EmprestimoController.returnLoan). Marca o empréstimo como DEVOLVIDO e devolve o item ao estoque. Retorna uma mensagem de texto.\n\nPath Variables:\n- `id` (Long): identificador do livro.\n- `idMember` (Long): identificador do membro.\n\nErros: 404 se o livro/membro não existir, ou 404 (LoanNotFound) se não houver empréstimo ativo desse livro para o membro."
+          },
+          "response": [
+            {
+              "name": "Registrar devolução - Sucesso",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/livro/devolver/1/membro/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "livro", "devolver", "1", "membro", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [{ "key": "Content-Type", "value": "text/plain" }],
+              "body": "Book with id: 1 has been returned"
+            },
+            {
+              "name": "Registrar devolução - Empréstimo não encontrado (404)",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/emprestimo/livro/devolver/1/membro/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["emprestimo", "livro", "devolver", "1", "membro", "1"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n    \"status\": \"NOT_FOUND\",\n    \"message\": \"Member with id: 1 don't have an active Loan with Book id: 1\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
