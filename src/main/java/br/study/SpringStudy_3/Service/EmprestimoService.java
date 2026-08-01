@@ -33,7 +33,7 @@ public class EmprestimoService {
                 () -> new BookNotFoundException(idBook)
         );
         Membro membro = membroRepository.findById(idMember).orElseThrow(
-                () -> new BookNotFoundException(idMember)
+                () -> new MemberNotFoundException(idMember)
         );
 
         if(emprestimoRepository.existsByLivroAndMembroAndStatus(
